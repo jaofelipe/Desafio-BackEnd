@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SecureIdentity.Password;
 
-namespace DesafioBackEnd.Data.Mappings
+namespace DesafioBackEnd.Infra.Data.Mappings
 {
     public class UserMap : IEntityTypeConfiguration<User>
     {

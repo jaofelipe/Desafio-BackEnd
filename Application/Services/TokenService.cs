@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace DesafioBackEnd.Services
+namespace DesafioBackEnd.Application.Services
 {
     public class TokenService
     {

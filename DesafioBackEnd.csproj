@@ -20,16 +20,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
     <PackageReference Include="SecureIdentity" Version="1.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Events\Consumer\" />
-    <Folder Include="Events\Publisher\" />
+    <Folder Include="Infra\Messaging\RabbitMQ\Consumers\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 
 </Project>

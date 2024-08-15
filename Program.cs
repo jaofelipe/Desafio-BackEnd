@@ -1,12 +1,15 @@
 using GerenciadorTarefas;
-using DesafioBackEnd.Data;
 using DesafioBackEnd.Mappings.Config;
-using DesafioBackEnd.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Microsoft.Extensions.Configuration;
+using DesafioBackEnd.Infra.Messaging.RabbitMQ.Config;
+using DesafioBackEnd.Infra.Data;
+using DesafioBackEnd.Application.Services;
+using DesafioBackEnd.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +19,9 @@ ConfigureAuthentication(services);
 ConfigureAuthorization(services);
 ConfigureAutoMapper(services);
 ConfigureSwagger(services);
+ConfigureRabbitMQ(services);
 ConfigureServices(services);
+
 
 
 
@@ -58,7 +63,7 @@ void ConfigureAuthentication(IServiceCollection services)
         };
     });
 
-   
+
 }
 
 void ConfigureAuthorization(IServiceCollection services)
@@ -70,6 +75,21 @@ void ConfigureAuthorization(IServiceCollection services)
         options.AddPolicy("UserOnly", policy =>
             policy.RequireRole("Usuario"));
     });
+}
+
+void ConfigureRabbitMQ(IServiceCollection services)
+{
+    var rabbitMqOptions = new RabbitMqOptions();
+    builder.Configuration.GetSection("RabbitMQ").Bind(rabbitMqOptions);
+
+    services.AddSingleton<IMessageBroker>(sp =>
+    {
+       return new RabbitMqMessageBroker(
+            rabbitMqOptions.Hostname,
+            rabbitMqOptions.Username,
+            rabbitMqOptions.Password);
+    });
+
 }
 
 void ConfigureSwagger(IServiceCollection services)

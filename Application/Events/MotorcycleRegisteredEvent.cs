@@ -1,4 +1,4 @@
-﻿namespace DesafioBackEnd.Events
+﻿namespace DesafioBackEnd.Application.Events
 {
     public class MotorcycleRegisteredEvent
     {

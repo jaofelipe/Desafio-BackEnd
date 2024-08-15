@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DesafioBackEnd.Data.Mappings
+namespace DesafioBackEnd.Infra.Data.Mappings
 {
     public class TarefaMap : IEntityTypeConfiguration<Tarefa>
     {
@@ -14,7 +14,7 @@ namespace DesafioBackEnd.Data.Mappings
             // Chave Primária
             builder.HasKey(x => x.Id);
 
-            
+
 
             // Propriedades
             builder.Property(x => x.Titulo)
@@ -46,7 +46,7 @@ namespace DesafioBackEnd.Data.Mappings
                 .HasMaxLength(80);
 
             // Índices
-           
+
         }
     }
 }

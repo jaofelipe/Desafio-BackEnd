@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using DesafioBackEnd.Data;
 using DesafioBackEnd.Extensions;
+using DesafioBackEnd.Infra.Data;
 using DesafioBackEnd.Models;
 using DesafioBackEnd.ViewModels;
 using Microsoft.AspNetCore.Authorization;

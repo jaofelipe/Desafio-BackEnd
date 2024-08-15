@@ -1,7 +1,7 @@
-﻿using DesafioBackEnd.Data;
+﻿using DesafioBackEnd.Application.Services;
 using DesafioBackEnd.Extensions;
+using DesafioBackEnd.Infra.Data;
 using DesafioBackEnd.Models;
-using DesafioBackEnd.Services;
 using DesafioBackEnd.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

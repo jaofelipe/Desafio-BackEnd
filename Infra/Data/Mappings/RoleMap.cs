@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace DesafioBackEnd.Data.Mappings
+namespace DesafioBackEnd.Infra.Data.Mappings
 {
     public class RoleMap : IEntityTypeConfiguration<Role>
     {
@@ -35,12 +35,6 @@ namespace DesafioBackEnd.Data.Mappings
                     Id = adminRoleId,
                     Name = "Admin",
                     Slug = "admin"
-                }, 
-                new Role
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Usuario",
-                    Slug = "usuario"
                 }
             );
         }
