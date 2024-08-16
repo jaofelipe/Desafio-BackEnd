@@ -1,4 +1,4 @@
-using DesafioBackEnd.Enums;
+using DesafioBackEnd.Core.Enums;
 
 namespace DesafioBackEnd.Models
 {
@@ -10,7 +10,6 @@ namespace DesafioBackEnd.Models
         public DateTime BirthDate { get; set; }
         public string DriverLicenseNumber { get; set; }
         public LicenseTypeEnum LicenseType { get; set; }
-        public byte[] DriverLicenseImage { get; set; }
         public List<Rental> Rentals { get; set; } = new List<Rental>();
 
         public bool CanRent() => LicenseType == LicenseTypeEnum.A || LicenseType == LicenseTypeEnum.AB;

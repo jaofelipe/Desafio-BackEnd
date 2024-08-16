@@ -7,7 +7,6 @@ namespace DesafioBackEnd.Infra.Repository
     {
         Task AddAsync(Motorcycle motorcycle);
         Task<Motorcycle?> GetByIdAsync(Guid id);
-        void Save2024Notification(MotorcycleRegisteredEvent @event);
         Task<Motorcycle?> GetByLicensePlateAsync(string licensePlate);
         Task<bool> ExistsByLicensePlateAsync(string licensePlate);
         Task UpdateAsync(Motorcycle motorcycle);

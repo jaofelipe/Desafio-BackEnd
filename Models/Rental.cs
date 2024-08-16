@@ -1,4 +1,4 @@
-using DesafioBackEnd.Enums;
+using DesafioBackEnd.Core.Enums;
 
 namespace DesafioBackEnd.Models
 {
@@ -8,11 +8,14 @@ namespace DesafioBackEnd.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime EstimatedEndDate { get; set; }
-        public decimal DailyRate { get; private set; }
+        public decimal DailyRate { get; set; }
         public decimal TotalCost { get; private set; }
         public RentalPlanEnum RentalPlan { get; set; }
         public DeliveryPerson DeliveryPerson { get; set; }
-        public Motorcycle Motorcycle { get; set; } // Associa a locação a uma moto
+        public Guid DeliveryPersonId { get; set; }
+        public Motorcycle Motorcycle { get; set; }
+
+        public Guid MotorcycleId { get; set; }
         public RentalStatusEnum Status { get; set; } = RentalStatusEnum.Active;
 
         public Rental(Motorcycle motorcycle)
@@ -20,7 +23,12 @@ namespace DesafioBackEnd.Models
             Motorcycle = motorcycle;
         }
 
-        public void CalculateTotalCost(DateTime returnDate)
+        public Rental()
+        {
+
+        }
+
+        public decimal CalculateTotalCost(DateTime returnDate)
         {
             int totalDays = (returnDate - StartDate).Days;
             TotalCost = totalDays * DailyRate;
@@ -30,14 +38,18 @@ namespace DesafioBackEnd.Models
                 int remainingDays = (EstimatedEndDate - returnDate).Days;
                 decimal penaltyRate = GetPenaltyRate();
                 TotalCost += remainingDays * DailyRate * penaltyRate;
+                
             }
             else if (returnDate > EstimatedEndDate)
             {
                 int additionalDays = (returnDate - EstimatedEndDate).Days;
                 TotalCost += additionalDays * 50.00m;
+
             }
+            return TotalCost;
         }
 
+        #region métodos privados
         private decimal GetPenaltyRate()
         {
             return RentalPlan switch
@@ -47,5 +59,8 @@ namespace DesafioBackEnd.Models
                 _ => 0.00m,
             };
         }
+
+       
+        #endregion
     }
 }

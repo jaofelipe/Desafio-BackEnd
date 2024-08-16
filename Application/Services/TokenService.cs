@@ -1,4 +1,4 @@
-﻿using DesafioBackEnd.Extensions;
+﻿using DesafioBackEnd.Core.Extensions;
 using DesafioBackEnd.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

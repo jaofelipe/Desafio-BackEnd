@@ -1,12 +1,9 @@
-﻿using DesafioBackEnd.Models;
+﻿using DesafioBackEnd.Infra.Data;
+using DesafioBackEnd.Models;
 using Microsoft.EntityFrameworkCore;
-using DesafioBackEnd.Infra.Repository.Interfaces;
-using DesafioBackEnd.Infra.Data;
-using DesafioBackEnd.Application.Events;
 
 namespace DesafioBackEnd.Infra.Repository
 {
-
     public class MotorcycleRepository : IMotorcycleRepository
     {
         private readonly DataContext _context;
@@ -48,11 +45,6 @@ namespace DesafioBackEnd.Infra.Repository
             return _context.Motorcycles.Where(m => m.LicensePlate.Contains(licensePlate)).ToList();
         }
 
-        public void Save2024Notification(MotorcycleRegisteredEvent @event)
-        {
-            _context.MotorcycleRegisteredEvents.Add(@event);
-            _context.SaveChanges();
-        }
     }
 
 }

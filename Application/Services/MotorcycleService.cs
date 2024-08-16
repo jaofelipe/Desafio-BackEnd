@@ -1,10 +1,11 @@
-﻿using DesafioBackEnd.Infra.Messaging.RabbitMQ.Publishers;
+﻿using DesafioBackEnd.Application.Interfaces;
+using DesafioBackEnd.Infra.Messaging.RabbitMQ.Publishers;
 using DesafioBackEnd.Infra.Repository;
 using DesafioBackEnd.Models;
 
 namespace DesafioBackEnd.Application.Services
 {
-    public class MotorcycleService
+    public class MotorcycleService : IMotorcycleService
     {
         private readonly IMotorcycleRepository _motorcycleRepository;
         private readonly MotorcycleEventPublisher _eventPublisher;
@@ -42,7 +43,7 @@ namespace DesafioBackEnd.Application.Services
             await _motorcycleRepository.UpdateAsync(motorcycle);
         }
 
-        public async Task DeleteAsync(Guid motorcycleId)
+        public async Task<Motorcycle> DeleteAsync(Guid motorcycleId)
         {
             var motorcycle = await _motorcycleRepository.GetByIdAsync(motorcycleId) ?? throw new KeyNotFoundException("Motocicleta não encontrada.");
 
@@ -52,6 +53,8 @@ namespace DesafioBackEnd.Application.Services
             }
 
             await _motorcycleRepository.DeleteAsync(motorcycle);
+
+            return motorcycle;
         }
     }
 }

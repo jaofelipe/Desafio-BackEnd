@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infra\Messaging\RabbitMQ\Consumers\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

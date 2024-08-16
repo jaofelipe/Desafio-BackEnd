@@ -1,15 +1,17 @@
-using GerenciadorTarefas;
-using DesafioBackEnd.Mappings.Config;
+using DesafioBackEnd;
+using DesafioBackEnd.API.Dependencies;
+using DesafioBackEnd.Application.Interfaces;
+using DesafioBackEnd.Application.Mapping.Config;
+using DesafioBackEnd.Application.Services;
+using DesafioBackEnd.Infra.Data;
+using DesafioBackEnd.Infra.Messaging.RabbitMQ;
+using DesafioBackEnd.Infra.Messaging.RabbitMQ.Config;
+using DesafioBackEnd.Infra.Messaging.RabbitMQ.Publishers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using Microsoft.Extensions.Configuration;
-using DesafioBackEnd.Infra.Messaging.RabbitMQ.Config;
-using DesafioBackEnd.Infra.Data;
-using DesafioBackEnd.Application.Services;
-using DesafioBackEnd.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,8 +43,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.Run();
-
-
 
 
 void ConfigureAuthentication(IServiceCollection services)
@@ -89,6 +89,8 @@ void ConfigureRabbitMQ(IServiceCollection services)
             rabbitMqOptions.Username,
             rabbitMqOptions.Password);
     });
+
+    services.AddSingleton<MotorcycleEventPublisher>();
 
 }
 
@@ -142,6 +144,9 @@ void ConfigureServices(IServiceCollection services)
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     services.AddTransient<TokenService>();
+
+    ApplicationDependencyInjector.Add(services);
+    RepositoriesDependencyInjector.Add(services);
 }
 
 void ConfigureAutoMapper(IServiceCollection services)

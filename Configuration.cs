@@ -1,4 +1,4 @@
-﻿namespace GerenciadorTarefas;
+﻿namespace DesafioBackEnd;
 public static class Configuration
 {
     public static string JwtKey = "3ECcR5FX5yvTKizXQbH4n8TqQzlz1pyE";
