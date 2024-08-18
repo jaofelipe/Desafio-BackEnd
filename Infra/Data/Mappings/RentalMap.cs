@@ -21,12 +21,10 @@ namespace DesafioBackEnd.Infra.Data.Mappings
                 .IsRequired();
 
             builder.Property(r => r.TotalCost)
-                .HasColumnType("decimal")
                 .HasPrecision(18, 2);
 
             builder.Property(r => r.DailyRate)
                 .IsRequired()
-                .HasColumnType("decimal")
                 .HasPrecision(18, 2);
 
             builder.Property(r => r.RentalPlan)

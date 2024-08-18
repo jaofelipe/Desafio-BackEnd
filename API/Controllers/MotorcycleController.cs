@@ -42,7 +42,7 @@ namespace DesafioBackEnd.API.Controllers
         }
 
 
-        [HttpGet("{licensePlate:string}")]
+        [HttpGet("{licensePlate}")]
         public async Task<IActionResult> GetByLicensePlateAsync(
             [FromRoute] string licensePlate)
         {
@@ -74,7 +74,6 @@ namespace DesafioBackEnd.API.Controllers
 
                 await _motorcycleService.AddAsync(motorcycle);
 
-
                 var retorno = _mapper.Map<MotorcycleResponseViewModel>(motorcycle);
 
                 return Created($"{motorcycle.Id}", new ResultViewModel<MotorcycleResponseViewModel>(retorno));
@@ -84,9 +83,9 @@ namespace DesafioBackEnd.API.Controllers
             {
                 return StatusCode(500, new ResultViewModel<Motorcycle>("05XE9 - Não foi possível incluir a tarefa"));
             }
-            catch
+            catch (Exception e)
             {
-                return StatusCode(500, new ResultViewModel<Motorcycle>("05X10 - Falha interna no servidor"));
+                return StatusCode(500, new ResultViewModel<Motorcycle>(e.Message));
             }
         }
 

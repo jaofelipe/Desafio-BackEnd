@@ -3,16 +3,16 @@ using System;
 using DesafioBackEnd.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace DesafioBackEnd.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240816040751_Inicial")]
+    [Migration("20240818003927_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -20,36 +20,36 @@ namespace DesafioBackEnd.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.20")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("ProductVersion", "7.0.18")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("DesafioBackEnd.Models.DeliveryPerson", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Cnpj")
                         .IsRequired()
                         .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
+                        .HasColumnType("character varying(14)");
 
                     b.Property<string>("DriverLicenseNumber")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("character varying(20)");
 
                     b.Property<int>("LicenseType")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -65,20 +65,20 @@ namespace DesafioBackEnd.Migrations
             modelBuilder.Entity("DesafioBackEnd.Models.Motorcycle", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("LicensePlate")
                         .IsRequired()
                         .HasMaxLength(12)
-                        .HasColumnType("varchar");
+                        .HasColumnType("character varying(12)");
 
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int>("Year")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -91,26 +91,26 @@ namespace DesafioBackEnd.Migrations
             modelBuilder.Entity("DesafioBackEnd.Models.Motorcycle2024Registration", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("LicensePlate")
                         .IsRequired()
                         .HasMaxLength(12)
-                        .HasColumnType("varchar");
+                        .HasColumnType("character varying(12)");
 
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<Guid>("MotorcycleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("RegisteredAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Year")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -126,36 +126,36 @@ namespace DesafioBackEnd.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("DailyRate")
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal");
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<Guid>("DeliveryPersonId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("EstimatedEndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("MotorcycleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("RentalPlan")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("TotalCost")
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal");
+                        .HasColumnType("numeric(18,2)");
 
                     b.HasKey("Id");
 
@@ -170,18 +170,18 @@ namespace DesafioBackEnd.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("NVARCHAR")
+                        .HasColumnType("character varying(80)")
                         .HasColumnName("Name");
 
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("VARCHAR")
+                        .HasColumnType("character varying(80)")
                         .HasColumnName("Slug");
 
                     b.HasKey("Id");
@@ -201,36 +201,36 @@ namespace DesafioBackEnd.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Bio")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(160)
-                        .HasColumnType("VARCHAR")
+                        .HasColumnType("character varying(160)")
                         .HasColumnName("Email");
 
                     b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("VARCHAR")
+                        .HasColumnType("character varying(80)")
                         .HasColumnName("Name");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("VARCHAR")
+                        .HasColumnType("character varying(255)")
                         .HasColumnName("PasswordHash");
 
                     b.Property<string>("Slug")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("VARCHAR")
+                        .HasColumnType("character varying(80)")
                         .HasColumnName("Slug");
 
                     b.HasKey("Id");
@@ -246,7 +246,7 @@ namespace DesafioBackEnd.Migrations
                             Id = new Guid("d2f1f799-09b6-44b0-91a4-13d5cd3640b1"),
                             Email = "admin@gmail.com",
                             Name = "admin",
-                            PasswordHash = "10000.WZHmTDayMjlVKUuL++1m6g==.jN2YIXAaFW1Qz6aQAaXWpafyDd6ru8WXcdC1170t0co=",
+                            PasswordHash = "10000.lv/Ys0439Ve9Z28AD6S7+w==.g4VINIyxstkQp4FSWkq8DFtzmbHJPyUnj7kIjcvzbyE=",
                             Slug = "admin-gmail-com"
                         });
                 });
@@ -254,10 +254,10 @@ namespace DesafioBackEnd.Migrations
             modelBuilder.Entity("DesafioBackEnd.Models.UserRole", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.HasKey("UserId", "RoleId");
 

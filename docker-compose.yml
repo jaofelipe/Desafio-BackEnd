@@ -9,7 +9,7 @@ services:
       - "POSTGRES_PASSWORD=postgres"
       - "POSTGRES_DB=desafio"
     ports:
-      - 5433:5432
+      - "5433:5432"
     volumes:
       - db:/var/lib/postgresql/data
     networks:
@@ -25,7 +25,7 @@ services:
         condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=database;Database=desafio;User ID=postgres;Password=postgres;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=database;Port=5432;Database=desafio;User ID=postgres;Password=postgres;TrustServerCertificate=True;
     networks:
       - backend
 
@@ -35,10 +35,10 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "8081:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=database;Database=desafio;User ID=postgres;Password=postgres;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=database;Port=5432;Database=desafio;User ID=postgres;Password=postgres;TrustServerCertificate=True;
     depends_on:
       database:
         condition: service_healthy
@@ -49,3 +49,5 @@ services:
 
 networks:
     backend:
+volumes:
+    db:    

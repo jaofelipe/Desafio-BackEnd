@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "GerenciadorTarefas": {
+    "Desafio": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

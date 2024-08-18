@@ -1,11 +1,13 @@
 using DesafioBackEnd;
 using DesafioBackEnd.API.Dependencies;
+using DesafioBackEnd.Application.Events;
 using DesafioBackEnd.Application.Interfaces;
 using DesafioBackEnd.Application.Mapping.Config;
 using DesafioBackEnd.Application.Services;
 using DesafioBackEnd.Infra.Data;
 using DesafioBackEnd.Infra.Messaging.RabbitMQ;
 using DesafioBackEnd.Infra.Messaging.RabbitMQ.Config;
+using DesafioBackEnd.Infra.Messaging.RabbitMQ.Consumers;
 using DesafioBackEnd.Infra.Messaging.RabbitMQ.Publishers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,6 @@ ConfigureAuthentication(services);
 ConfigureAuthorization(services);
 ConfigureAutoMapper(services);
 ConfigureSwagger(services);
-ConfigureRabbitMQ(services);
 ConfigureServices(services);
 
 
@@ -31,6 +32,8 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+Con
+ConfigureRabbitMQ(services, app, IMessageBroker);
 
 // Configure o pipeline HTTP
 if (app.Environment.IsDevelopment())
@@ -77,20 +80,19 @@ void ConfigureAuthorization(IServiceCollection services)
     });
 }
 
-void ConfigureRabbitMQ(IServiceCollection services)
+void ConfigureRabbitMQ(IServiceCollection services, IMessageBroker messageBroker)
 {
     var rabbitMqOptions = new RabbitMqOptions();
     builder.Configuration.GetSection("RabbitMQ").Bind(rabbitMqOptions);
 
     services.AddSingleton<IMessageBroker>(sp =>
     {
-       return new RabbitMqMessageBroker(
-            rabbitMqOptions.Hostname,
-            rabbitMqOptions.Username,
-            rabbitMqOptions.Password);
+        return new RabbitMqMessageBroker(
+             rabbitMqOptions.URL);
     });
 
     services.AddSingleton<MotorcycleEventPublisher>();
+
 
 }
 
@@ -141,7 +143,7 @@ void ConfigureServices(IServiceCollection services)
         });
 
     services.AddDbContext<DataContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     services.AddTransient<TokenService>();
 

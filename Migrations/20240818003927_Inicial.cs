@@ -15,12 +15,12 @@ namespace DesafioBackEnd.Migrations
                 name: "DeliveryPerson",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Cnpj = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DriverLicenseNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    LicenseType = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Cnpj = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DriverLicenseNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    LicenseType = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,10 +31,10 @@ namespace DesafioBackEnd.Migrations
                 name: "Motorcycle",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
-                    Model = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    LicensePlate = table.Column<string>(type: "varchar(12)", maxLength: 12, nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Year = table.Column<int>(type: "integer", nullable: false),
+                    Model = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    LicensePlate = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,9 +45,9 @@ namespace DesafioBackEnd.Migrations
                 name: "Role",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "NVARCHAR(80)", maxLength: 80, nullable: false),
-                    Slug = table.Column<string>(type: "VARCHAR(80)", maxLength: 80, nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false),
+                    Slug = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,13 +58,13 @@ namespace DesafioBackEnd.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "VARCHAR(80)", maxLength: 80, nullable: false),
-                    Email = table.Column<string>(type: "VARCHAR(160)", maxLength: 160, nullable: false),
-                    PasswordHash = table.Column<string>(type: "VARCHAR(255)", maxLength: 255, nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Slug = table.Column<string>(type: "VARCHAR(80)", maxLength: 80, nullable: false),
-                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false),
+                    Email = table.Column<string>(type: "character varying(160)", maxLength: 160, nullable: false),
+                    PasswordHash = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Image = table.Column<string>(type: "text", nullable: true),
+                    Slug = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false),
+                    Bio = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,12 +75,12 @@ namespace DesafioBackEnd.Migrations
                 name: "Motorcycle2024Registration",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Year = table.Column<int>(type: "int", nullable: false),
-                    Model = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
-                    LicensePlate = table.Column<string>(type: "varchar(12)", maxLength: 12, nullable: false),
-                    MotorcycleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RegisteredAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Year = table.Column<int>(type: "integer", nullable: false),
+                    Model = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    LicensePlate = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
+                    MotorcycleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RegisteredAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,16 +97,16 @@ namespace DesafioBackEnd.Migrations
                 name: "Rental",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EstimatedEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DailyRate = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    TotalCost = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    RentalPlan = table.Column<int>(type: "int", nullable: false),
-                    DeliveryPersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MotorcycleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EstimatedEndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DailyRate = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    TotalCost = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    RentalPlan = table.Column<int>(type: "integer", nullable: false),
+                    DeliveryPersonId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MotorcycleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,8 +129,8 @@ namespace DesafioBackEnd.Migrations
                 name: "UserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,7 +157,7 @@ namespace DesafioBackEnd.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Bio", "Email", "Image", "Name", "PasswordHash", "Slug" },
-                values: new object[] { new Guid("d2f1f799-09b6-44b0-91a4-13d5cd3640b1"), null, "admin@gmail.com", null, "admin", "10000.WZHmTDayMjlVKUuL++1m6g==.jN2YIXAaFW1Qz6aQAaXWpafyDd6ru8WXcdC1170t0co=", "admin-gmail-com" });
+                values: new object[] { new Guid("d2f1f799-09b6-44b0-91a4-13d5cd3640b1"), null, "admin@gmail.com", null, "admin", "10000.lv/Ys0439Ve9Z28AD6S7+w==.g4VINIyxstkQp4FSWkq8DFtzmbHJPyUnj7kIjcvzbyE=", "admin-gmail-com" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",

@@ -24,7 +24,6 @@ namespace DesafioBackEnd.Infra.Data.Mappings
             builder.Property(x => x.Name)
                 .IsRequired()
                 .HasColumnName("Name")
-                .HasColumnType("VARCHAR")
                 .HasMaxLength(80);
 
             builder.Property(x => x.Bio)
@@ -33,7 +32,6 @@ namespace DesafioBackEnd.Infra.Data.Mappings
             builder.Property(x => x.Email)
                 .IsRequired()
                 .HasColumnName("Email")
-                .HasColumnType("VARCHAR")
                 .HasMaxLength(160);
 
             builder.Property(x => x.Image)
@@ -42,13 +40,11 @@ namespace DesafioBackEnd.Infra.Data.Mappings
             builder.Property(x => x.PasswordHash)
                 .IsRequired()
                 .HasColumnName("PasswordHash")
-                .HasColumnType("VARCHAR")
                 .HasMaxLength(255);
 
             builder.Property(x => x.Slug)
                 .IsRequired()
                 .HasColumnName("Slug")
-                .HasColumnType("VARCHAR")
                 .HasMaxLength(80);
 
             // Índices

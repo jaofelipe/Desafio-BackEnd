@@ -9,24 +9,19 @@ namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
 
     public class RabbitMqMessageBroker : IMessageBroker
     {
-        private readonly string _hostname;
-        private readonly string _username;
-        private readonly string _password;
         private readonly IConnection _connection;
         private readonly IModel _channel;
+        private static string? _url;
 
-        public RabbitMqMessageBroker(string hostname, string username, string password)
+        public RabbitMqMessageBroker(string url)
         {
-            _hostname = hostname;
-            _username = username;
-            _password = password;
+            _url  = url;
 
             var factory = new ConnectionFactory
             {
-                HostName = _hostname,
-                UserName = _username,
-                Password = _password
+               Uri = new Uri(_url)
             };
+
 
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
@@ -48,7 +43,7 @@ namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
                                   body: messageBody);
         }
 
-        public void Subscribe<T>(string queueName, Action<T> onMessageReceived)
+        public void Subscribe<T>(string queueName, IMessageHandler<T> handler) where T : class
         {
             _channel.QueueDeclare(queue: queueName,
                                   durable: true,
@@ -57,12 +52,12 @@ namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
                                   arguments: null);
 
             var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += (model, ea) =>
+            consumer.Received += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
                 var deserializedMessage = JsonSerializer.Deserialize<T>(message);
-                onMessageReceived(deserializedMessage);
+                await handler.HandleAsync(deserializedMessage);
             };
 
             _channel.BasicConsume(queue: queueName,

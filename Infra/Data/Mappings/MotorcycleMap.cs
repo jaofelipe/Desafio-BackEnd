@@ -21,20 +21,17 @@ namespace DesafioBackEnd.Infra.Data.Mappings
 
             // Propriedade Year
             builder.Property(m => m.Year)
-                   .IsRequired()
-                   .HasColumnType("int");
+                   .IsRequired();
 
             // Propriedade Model
             builder.Property(m => m.Model)
                    .IsRequired()
-                   .HasMaxLength(100) // Limite de tamanho
-                   .HasColumnType("varchar");
+                   .HasMaxLength(100); // Limite de tamanho
 
             // Propriedade LicensePlate
             builder.Property(m => m.LicensePlate)
                    .IsRequired()
-                   .HasMaxLength(12) 
-                   .HasColumnType("varchar");
+                   .HasMaxLength(12);
 
             // Índice único para LicensePlate
             builder.HasIndex(m => m.LicensePlate)
