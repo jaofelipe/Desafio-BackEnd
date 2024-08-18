@@ -1,7 +1,6 @@
 ﻿using DesafioBackEnd.Application.Interfaces;
-using DesafioBackEnd.Infra.Messaging.RabbitMQ.Handlers;
 
-namespace DesafioBackEnd.Infra.Messaging.RabbitMQ.Subscribers
+namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
 {
     public class MessageSubscriberService : BackgroundService
     {

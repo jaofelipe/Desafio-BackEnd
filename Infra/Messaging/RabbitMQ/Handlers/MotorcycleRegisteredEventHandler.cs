@@ -2,7 +2,7 @@
 using DesafioBackEnd.Infra.Data;
 using DesafioBackEnd.Models;
 
-namespace DesafioBackEnd.Infra.Messaging.RabbitMQ.Handlers
+namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
 {
     public class MotorcycleRegisteredEventHandler : IMotorcycleRegisteredEventHandler
     {

@@ -2,7 +2,7 @@
 using DesafioBackEnd.Application.Interfaces;
 using DesafioBackEnd.Models;
 
-namespace DesafioBackEnd.Infra.Messaging.RabbitMQ.Publishers
+namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
 {
     public class MotorcycleEventPublisher
     {

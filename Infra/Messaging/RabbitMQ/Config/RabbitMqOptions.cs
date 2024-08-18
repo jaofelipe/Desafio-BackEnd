@@ -1,4 +1,4 @@
-﻿namespace DesafioBackEnd.Infra.Messaging.RabbitMQ.Config
+﻿namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
 {
     public class RabbitMqOptions
     {

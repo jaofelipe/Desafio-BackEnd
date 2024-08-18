@@ -5,10 +5,6 @@ using DesafioBackEnd.Application.Mapping.Config;
 using DesafioBackEnd.Application.Services;
 using DesafioBackEnd.Infra.Data;
 using DesafioBackEnd.Infra.Messaging.RabbitMQ;
-using DesafioBackEnd.Infra.Messaging.RabbitMQ.Config;
-using DesafioBackEnd.Infra.Messaging.RabbitMQ.Handlers;
-using DesafioBackEnd.Infra.Messaging.RabbitMQ.Publishers;
-using DesafioBackEnd.Infra.Messaging.RabbitMQ.Subscribers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -25,8 +21,6 @@ ConfigureAutoMapper(services);
 ConfigureSwagger(services);
 ConfigureRabbitMQ(services);
 ConfigureServices(services);
-
-
 
 
 var app = builder.Build();
@@ -87,8 +81,7 @@ void ConfigureRabbitMQ(IServiceCollection services)
 
     services.AddSingleton<IMessageBroker>(sp =>
     {
-        return new RabbitMqMessageBroker(
-             rabbitMqOptions.URL);
+        return new RabbitMqMessageBroker(rabbitMqOptions.URL);
     });
 
     services.AddSingleton<MotorcycleEventPublisher>();

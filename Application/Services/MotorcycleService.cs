@@ -1,5 +1,5 @@
 ﻿using DesafioBackEnd.Application.Interfaces;
-using DesafioBackEnd.Infra.Messaging.RabbitMQ.Publishers;
+using DesafioBackEnd.Infra.Messaging.RabbitMQ;
 using DesafioBackEnd.Infra.Repository;
 using DesafioBackEnd.Models;
 
