@@ -1,14 +1,14 @@
 using DesafioBackEnd;
 using DesafioBackEnd.API.Dependencies;
-using DesafioBackEnd.Application.Events;
 using DesafioBackEnd.Application.Interfaces;
 using DesafioBackEnd.Application.Mapping.Config;
 using DesafioBackEnd.Application.Services;
 using DesafioBackEnd.Infra.Data;
 using DesafioBackEnd.Infra.Messaging.RabbitMQ;
 using DesafioBackEnd.Infra.Messaging.RabbitMQ.Config;
-using DesafioBackEnd.Infra.Messaging.RabbitMQ.Consumers;
+using DesafioBackEnd.Infra.Messaging.RabbitMQ.Handlers;
 using DesafioBackEnd.Infra.Messaging.RabbitMQ.Publishers;
+using DesafioBackEnd.Infra.Messaging.RabbitMQ.Subscribers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -23,6 +23,7 @@ ConfigureAuthentication(services);
 ConfigureAuthorization(services);
 ConfigureAutoMapper(services);
 ConfigureSwagger(services);
+ConfigureRabbitMQ(services);
 ConfigureServices(services);
 
 
@@ -32,8 +33,7 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-Con
-ConfigureRabbitMQ(services, app, IMessageBroker);
+
 
 // Configure o pipeline HTTP
 if (app.Environment.IsDevelopment())
@@ -80,7 +80,7 @@ void ConfigureAuthorization(IServiceCollection services)
     });
 }
 
-void ConfigureRabbitMQ(IServiceCollection services, IMessageBroker messageBroker)
+void ConfigureRabbitMQ(IServiceCollection services)
 {
     var rabbitMqOptions = new RabbitMqOptions();
     builder.Configuration.GetSection("RabbitMQ").Bind(rabbitMqOptions);
@@ -93,7 +93,11 @@ void ConfigureRabbitMQ(IServiceCollection services, IMessageBroker messageBroker
 
     services.AddSingleton<MotorcycleEventPublisher>();
 
+    // Registra os handlers e serviços
+    services.AddSingleton<IMotorcycleRegisteredEventHandler, MotorcycleRegisteredEventHandler>();
 
+    // Registra o serviço de assinatura
+    services.AddHostedService<MessageSubscriberService>();
 }
 
 void ConfigureSwagger(IServiceCollection services)

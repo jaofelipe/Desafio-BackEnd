@@ -4,7 +4,7 @@ using DesafioBackEnd.Models;
 
 namespace DesafioBackEnd.Infra.Messaging.RabbitMQ.Handlers
 {
-    public class MotorcycleRegisteredEventHandler
+    public class MotorcycleRegisteredEventHandler : IMotorcycleRegisteredEventHandler
     {
         private readonly DataContext _context;
         private readonly ILogger<MotorcycleRegisteredEventHandler> _logger;
