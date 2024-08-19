@@ -14,12 +14,5 @@ namespace DesafioBackEnd.Application.ViewModels
         [Required]
         public string LicensePlate { get; set; }
 
-        public MotorcycleViewModel(int year, string model, string licensePlate)
-        {
-            Year = year;
-            Model = model;
-            LicensePlate = licensePlate;
-        }
-
     }
 }

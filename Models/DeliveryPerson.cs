@@ -14,5 +14,13 @@ namespace DesafioBackEnd.Models
 
         public bool CanRent() => LicenseType == LicenseTypeEnum.A || LicenseType == LicenseTypeEnum.AB;
 
+        public DeliveryPerson(string name, string cnpj, DateTime birthDate, LicenseTypeEnum licenseType)
+        {
+            Name = name;
+            Cnpj = cnpj;
+            BirthDate = birthDate;
+            LicenseType = licenseType;
+        }
+
     }
 }
