@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DesafioBackEnd.Application.Interfaces;
 using DesafioBackEnd.Application.ViewModels;
-using DesafioBackEnd.Application.ViewModels.Rental;
 using DesafioBackEnd.Core.Extensions;
 using DesafioBackEnd.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +16,7 @@ namespace DesafioBackEnd.API.Controllers
     {
         private readonly IMotorcycleService _motorcycleService;
         private readonly IMapper _mapper;
-        public MotorcycleController(IHttpContextAccessor httpContextAccessor, IMapper mapper, IMotorcycleService motorcycleService)
+        public MotorcycleController(IMapper mapper, IMotorcycleService motorcycleService)
         {
             _mapper = mapper;
             _motorcycleService = motorcycleService;
@@ -29,11 +28,11 @@ namespace DesafioBackEnd.API.Controllers
         {
             try
             {
-                var motorcycles = _motorcycleService.GetAllAsync();
+                var motorcycles = await _motorcycleService.GetAllAsync();
 
-                var retorno = _mapper.Map<List<RentalResponseViewModel>>(motorcycles);
+                var retorno = _mapper.Map<List<MotorcycleResponseViewModel>>(motorcycles);
 
-                return Ok(new ResultViewModel<List<RentalResponseViewModel>>(retorno));
+                return Ok(new ResultViewModel<List<MotorcycleResponseViewModel>>(retorno));
             }
             catch
             {
@@ -50,9 +49,9 @@ namespace DesafioBackEnd.API.Controllers
             {
                 var motorcycle = await _motorcycleService.GetByLicensePlateAsync(licensePlate);
 
-                var retorno = _mapper.Map<RentalResponseViewModel>(motorcycle);
+                var retorno = _mapper.Map<MotorcycleResponseViewModel>(motorcycle);
 
-                return Ok(new ResultViewModel<RentalResponseViewModel>(retorno));
+                return Ok(new ResultViewModel<MotorcycleResponseViewModel>(retorno));
             }
             catch (Exception ex)
             {
@@ -89,7 +88,7 @@ namespace DesafioBackEnd.API.Controllers
             }
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("{id:guid}/{licensePlate}")]
         public async Task<IActionResult> PutAsync(
             [FromRoute] Guid id,
             [FromRoute] string licensePlate
@@ -97,8 +96,11 @@ namespace DesafioBackEnd.API.Controllers
         {
             try
             {
-                await _motorcycleService.UpdateLicensePlateAsync(id, licensePlate);
-                return Ok();
+                var motorcycle = await _motorcycleService.UpdateLicensePlateAsync(id, licensePlate);
+
+                var retorno = _mapper.Map<MotorcycleResponseViewModel>(motorcycle);
+
+                return Ok(new ResultViewModel<MotorcycleResponseViewModel>(retorno));
             }
             catch (DbUpdateException ex)
             {
@@ -106,13 +108,12 @@ namespace DesafioBackEnd.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResultViewModel<Motorcycle>("05X11 - Falha interna no servidor"));
+                return StatusCode(500, new ResultViewModel<Motorcycle>(ex.Message));
             }
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id
-            )
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             try
             {
@@ -126,9 +127,9 @@ namespace DesafioBackEnd.API.Controllers
             {
                 return StatusCode(500, new ResultViewModel<Motorcycle>("05XE7 - Não foi possível excluir a tarefa"));
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500, new ResultViewModel<Motorcycle>("05X12 - Falha interna no servidor"));
+                return StatusCode(500, new ResultViewModel<Motorcycle>(ex.Message));
             }
         }
 

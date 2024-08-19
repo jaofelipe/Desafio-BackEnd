@@ -2,32 +2,43 @@
 
 namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
 {
-    public class MessageSubscriberService : BackgroundService
+    public class MessageSubscriberService : IHostedService
     {
         private readonly IMessageBroker _messageBroker;
         private readonly ILogger<MessageSubscriberService> _logger;
         private readonly IMotorcycleRegisteredEventHandler _motorcycleRegisteredEventHandler;
+        private readonly IConfiguration _configuration;
+        private readonly string _motorcycleQueueName;
 
         public MessageSubscriberService(
             IMessageBroker messageBroker,
             ILogger<MessageSubscriberService> logger,
-            IMotorcycleRegisteredEventHandler motorcycleRegisteredEventHandler)
+            IMotorcycleRegisteredEventHandler motorcycleRegisteredEventHandler,
+            IConfiguration configuration)
         {
             _messageBroker = messageBroker;
             _logger = logger;
             _motorcycleRegisteredEventHandler = motorcycleRegisteredEventHandler;
+
+            _motorcycleQueueName = configuration.GetValue<string>("RabbitMQ:MotorcycleQueueName");
+            _configuration = configuration;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Starting message subscriber service.");
+            _logger.LogInformation("Iniciando serviço de subscrição.");
 
             // Configura a inscrição para o evento MotorcycleRegisteredEvent
-            _messageBroker.Subscribe("MotorcycleRegistered", _motorcycleRegisteredEventHandler);
+            _messageBroker.Subscribe(_motorcycleQueueName, _motorcycleRegisteredEventHandler);
 
+            _logger.LogInformation(string.Format(DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss"), _motorcycleQueueName));
             // Mantenha o serviço ativo
-            await Task.Delay(Timeout.Infinite, stoppingToken);
+            return Task.CompletedTask;
         }
+
+        public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
+        
     }
 
 }

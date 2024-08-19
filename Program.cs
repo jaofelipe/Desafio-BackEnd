@@ -35,7 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gerenciador de Tarefas V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Desafio V1");
     });
 }
 
@@ -84,13 +84,14 @@ void ConfigureRabbitMQ(IServiceCollection services)
         return new RabbitMqMessageBroker(rabbitMqOptions.URL);
     });
 
-    services.AddSingleton<MotorcycleEventPublisher>();
+    services.AddScoped<MotorcycleEventPublisher>();
+
+    services.AddSingleton<IHostedService, MessageSubscriberService>();
+    // Registra o serviço de assinatura
 
     // Registra os handlers e serviços
     services.AddSingleton<IMotorcycleRegisteredEventHandler, MotorcycleRegisteredEventHandler>();
 
-    // Registra o serviço de assinatura
-    services.AddHostedService<MessageSubscriberService>();
 }
 
 void ConfigureSwagger(IServiceCollection services)
@@ -98,7 +99,7 @@ void ConfigureSwagger(IServiceCollection services)
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen(c =>
     {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gerenciador de Tarefas", Version = "v1" });
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Desafio", Version = "v1" });
 
         // Configuração do suporte a Bearer Token
         c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -140,7 +141,7 @@ void ConfigureServices(IServiceCollection services)
         });
 
     services.AddDbContext<DataContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Singleton);
 
     services.AddTransient<TokenService>();
 

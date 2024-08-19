@@ -33,7 +33,7 @@ namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
                 try
                 {
                     await _context.SaveChangesAsync();
-                    _logger.LogInformation("Motocicleta com ID {MotorcycleId} salvo para ano de 2024.", @event.MotorcycleId);
+                    _logger.LogInformation("Motocicleta de Placa {LicensePlate} salvo para ano de 2024.", @event.LicensePlate);
                 }
                 catch (Exception ex)
                 {

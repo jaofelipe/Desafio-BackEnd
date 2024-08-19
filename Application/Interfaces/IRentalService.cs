@@ -1,7 +1,4 @@
-﻿using DesafioBackEnd.Application.Interfaces;
-using DesafioBackEnd.Core.Enums;
-using DesafioBackEnd.Infra.Messaging.RabbitMQ.Publishers;
-using DesafioBackEnd.Infra.Repository;
+﻿using DesafioBackEnd.Core.Enums;
 using DesafioBackEnd.Models;
 
 namespace DesafioBackEnd.Application.Services

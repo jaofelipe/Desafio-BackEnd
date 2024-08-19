@@ -30,7 +30,7 @@ namespace DesafioBackEnd.Application.Services
         public async Task<Motorcycle?> GetByLicensePlateAsync(string licensePlate) => await _motorcycleRepository.GetByLicensePlateAsync(licensePlate);
         public async Task<IEnumerable<Motorcycle?>> GetAllAsync() => await _motorcycleRepository.GetAllAsync();
         
-        public async Task UpdateLicensePlateAsync(Guid motorcycleId, string newLicensePlate)
+        public async Task<Motorcycle> UpdateLicensePlateAsync(Guid motorcycleId, string newLicensePlate)
         {
             var motorcycle = await _motorcycleRepository.GetByIdAsync(motorcycleId) ?? throw new KeyNotFoundException("Motocicleta não encontrada.");
 
@@ -41,6 +41,8 @@ namespace DesafioBackEnd.Application.Services
 
             motorcycle.LicensePlate = newLicensePlate;
             await _motorcycleRepository.UpdateAsync(motorcycle);
+
+            return motorcycle;
         }
 
         public async Task<Motorcycle> DeleteAsync(Guid motorcycleId)
