@@ -1,4 +1,32 @@
 # Desafio backend Mottu.
+
+## Como configurar e rodar o projeto
+
+Entrar na pasta do projeto para executar aplicação/banco/migration executar: 
+```bash
+docker-compose -up --build
+```
+
+Para parar rodar o comando: 
+```bash
+docker-compose down
+```
+
+#### Ambientes:
+Local: http://localhost:5000
+
+Docker: http://localhost:8081
+
+## Migrations configurado com usuario e role Admin:
+
+#### user: admin@gmail.com
+
+#### senha: Net@123
+
+Arquivo ```endpoints_restapi.json ``` para importar no Insomnia/Postman,
+ estão configurados os ambientes no arquivo json com os endpoints com variáveis de ambiente.
+
+## Descrição
 Seja muito bem-vindo ao desafio backend da Mottu, obrigado pelo interesse em fazer parte do nosso time e ajudar a melhorar a vida de milhares de pessoas.
 
 ## Instruções

@@ -5,7 +5,6 @@ using DesafioBackEnd.Application.Mapping.Config;
 using DesafioBackEnd.Application.Services;
 using DesafioBackEnd.Infra.Data;
 using DesafioBackEnd.Infra.Messaging.RabbitMQ;
-using DesafioBackEnd.Infra.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
