@@ -5,6 +5,7 @@ using DesafioBackEnd.Application.Mapping.Config;
 using DesafioBackEnd.Application.Services;
 using DesafioBackEnd.Infra.Data;
 using DesafioBackEnd.Infra.Messaging.RabbitMQ;
+using DesafioBackEnd.Infra.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -87,9 +88,7 @@ void ConfigureRabbitMQ(IServiceCollection services)
     services.AddScoped<MotorcycleEventPublisher>();
 
     services.AddSingleton<IHostedService, MessageSubscriberService>();
-    // Registra o serviço de assinatura
 
-    // Registra os handlers e serviços
     services.AddSingleton<IMotorcycleRegisteredEventHandler, MotorcycleRegisteredEventHandler>();
 
 }
@@ -100,7 +99,7 @@ void ConfigureSwagger(IServiceCollection services)
     services.AddSwaggerGen(c =>
     {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Desafio", Version = "v1" });
-
+        //c.OperationFilter<SwaggerUploadOperationFilter>();
         // Configuração do suporte a Bearer Token
         c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
         {
@@ -137,6 +136,7 @@ void ConfigureServices(IServiceCollection services)
         .AddControllers()
         .ConfigureApiBehaviorOptions(options =>
         {
+            options.SuppressInferBindingSourcesForParameters = true;
             options.SuppressModelStateInvalidFilter = true;
         });
 

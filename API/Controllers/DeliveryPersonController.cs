@@ -41,23 +41,22 @@ namespace DesafioBackEnd.API.Controllers
         }
 
 
-       
-
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] DeliveryPersonViewModel model)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> PostAsync([FromForm] DeliveryPersonViewModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest(new ResultViewModel<Motorcycle>(ModelState.GetErrors()));
+                return BadRequest(new ResultViewModel<DeliveryPerson>(ModelState.GetErrors()));
 
             try
             {
-                var deliveryPerson = new DeliveryPerson(model.Name, model.Cnpj, model.BirthDate, model.LicenseType);
-
-                //Servicos de upload
-                string filePath = string.Empty;
-                if (model?.File is not null) filePath = await _service.SaveCnhImageAsync(deliveryPerson.Id, model.File);
+                var deliveryPerson = new DeliveryPerson(model.Name, model.Cnpj, model.BirthDate.NormalizeDate(DateTimeKind.Utc), model.LicenseType, model.DriverLicenseNumber);
 
                 await _service.AddAsync(deliveryPerson);
+
+                //Servicos de upload
+                string filePath = model?.File is not null 
+                    ? await _service.SaveCnhImageAsync(deliveryPerson.Id, model.File) : string.Empty;
 
                 var retorno = _mapper.Map<DeliveryPersonResponseViewModel>(deliveryPerson);
 
@@ -67,18 +66,19 @@ namespace DesafioBackEnd.API.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return StatusCode(500, new ResultViewModel<Motorcycle>("05XE9 - Não foi possível incluir."));
+                return StatusCode(500, new ResultViewModel<DeliveryPerson>("05XE9 - Não foi possível incluir."));
             }
             catch (Exception e)
             {
-                return StatusCode(500, new ResultViewModel<Motorcycle>(e.Message));
+                return StatusCode(500, new ResultViewModel<DeliveryPerson>(e.Message));
             }
         }
 
-        [HttpPatch("{id:guid}/{file}")]
+        [HttpPatch("{id:guid}")]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> PatchAsync(
             [FromRoute] Guid id,
-            [FromRoute] IFormFile file
+            [FromForm] IFormFile file
             )
         {
             try
@@ -89,34 +89,15 @@ namespace DesafioBackEnd.API.Controllers
             }
             catch (DbUpdateException ex)
             {
-                return StatusCode(500, new ResultViewModel<Motorcycle>("05XE8 - Não foi possível alterar"));
+                return StatusCode(500, new ResultViewModel<DeliveryPerson>("05XE8 - Não foi possível alterar"));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ResultViewModel<Motorcycle>(ex.Message));
+                return StatusCode(500, new ResultViewModel<DeliveryPerson>(ex.Message));
             }
         }
 
-        //[HttpDelete("{id:guid}")]
-        //public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
-        //{
-        //    try
-        //    {
-        //        var motorcycle = await _service.DeleteAsync(id);
-
-        //        var retorno = _mapper.Map<MotorcycleResponseViewModel>(motorcycle);
-
-        //        return Ok(new ResultViewModel<MotorcycleResponseViewModel>(retorno));
-        //    }
-        //    catch (DbUpdateException ex)
-        //    {
-        //        return StatusCode(500, new ResultViewModel<Motorcycle>("05XE7 - Não foi possível excluir a tarefa"));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new ResultViewModel<Motorcycle>(ex.Message));
-        //    }
-        //}
+       
 
     }
 }

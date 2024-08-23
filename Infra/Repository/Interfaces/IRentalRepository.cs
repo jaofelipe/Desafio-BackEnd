@@ -6,5 +6,6 @@ namespace DesafioBackEnd.Infra.Repository
     {
         Task AddAsync(Rental rental);
         Task<Rental?> GetByIdAsync(Guid id);
+        Task<Rental?> GetByIdIncludedAsync(Guid id);
     }
 }

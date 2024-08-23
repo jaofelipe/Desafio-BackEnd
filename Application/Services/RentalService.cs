@@ -17,15 +17,15 @@ namespace DesafioBackEnd.Application.Services
             _deliveryPersonRepository = deliveryPersonRepository;
         }
 
-        public async Task<Rental> AddAsync(Guid deliveryPersonId, Guid motorcycleId, RentalPlanEnum plan)
+        public async Task<Rental> AddAsync(Guid deliveryPersonId, string licensePlate, RentalPlanEnum plan)
         {
             var deliveryPerson = await _deliveryPersonRepository.GetByIdAsync(deliveryPersonId) ?? throw new KeyNotFoundException("Entregador não encontrado.");
-            var motorcycle = await _motorcycleRepository.GetByIdAsync(motorcycleId) ?? throw new KeyNotFoundException("Motocicleta não encontrada.");
+            var motorcycle = await _motorcycleRepository.GetByLicensePlateAsync(licensePlate) ?? throw new KeyNotFoundException("Motocicleta não encontrada.");
 
             if (!deliveryPerson.CanRent())
                 throw new InvalidOperationException("Somente entregadores com licença do tipo A podem alugar uma motocicleta");
 
-            DateTime startDate = DateTime.Now.AddDays(1);
+            DateTime startDate = DateTime.UtcNow.AddDays(1);
             DateTime endDate = startDate.AddDays(GetRentalDays(plan));
             decimal dailyRate = GetDailyRate(plan);
 
@@ -36,15 +36,25 @@ namespace DesafioBackEnd.Application.Services
                 DailyRate = dailyRate,
                 RentalPlan = plan,
                 DeliveryPersonId = deliveryPersonId,
-                MotorcycleId = motorcycleId,
+                MotorcycleId = motorcycle.Id,
+                Status = RentalStatusEnum.Active,
             };
 
+            rental.CalculateTotalCost(endDate);
             await _rentalRepository.AddAsync(rental);
-            
+
             return rental;
         }
 
-      
+        public async Task<Rental?> GetByIdIncludedAsync(Guid id) => await _rentalRepository.GetByIdIncludedAsync(id);
+
+        public async Task<Rental?> CalculateRentalCostAsync(Guid id, DateTime returnDate)
+        {
+            var rental = await _rentalRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException("Aluguel de motocicleta não encontrada.");
+
+            rental?.CalculateTotalCost(returnDate);
+            return rental;
+        }
 
         public void ReturnMotorcycle(Rental rental, DateTime returnDate)
         {

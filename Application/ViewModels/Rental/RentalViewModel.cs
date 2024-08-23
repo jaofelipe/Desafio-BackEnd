@@ -2,16 +2,17 @@
 using DesafioBackEnd.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace DesafioBackEnd.Application.ViewModels.Rental
+namespace DesafioBackEnd.Application.ViewModels
 {
     public class RentalViewModel
     {
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public DateTime EstimatedEndDate { get; set; }
-        public decimal DailyRate { get; private set; }
-        public decimal TotalCost { get; private set; }
+        [Required(ErrorMessage = "Id do entregador obrigatório.")]
+        public Guid DeliveryPersonId { get; set; }
+
+        [Required(ErrorMessage = "Placa obrigatória.")]
+        public string LicensePlate { get; set; }
+
+        [Required(ErrorMessage = "Plano de aluguel obrigatório.")]
         public RentalPlanEnum RentalPlan { get; set; }
-        public RentalStatusEnum Status { get; set; }
     }
 }

@@ -1,18 +1,20 @@
-﻿namespace DesafioBackEnd.Application.ViewModels.Rental
+﻿using DesafioBackEnd.Core.Enums;
+using DesafioBackEnd.Core.Extensions;
+
+namespace DesafioBackEnd.Application.ViewModels
 {
     public class RentalResponseViewModel
     {
         public Guid Id { get; set; }
-        public string Titulo { get; set; }
-        public string Descricao { get; set; }
-
-        public DateTime DataVencimento { get; set; }
-
-
-        //public string DescricaoStatusTarefa => StatusTarefa.GetDescription();
-
-        public string Responsavel { get; set; }
-        public Guid UserId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public DateTime EstimatedEndDate { get; set; }
+        public decimal DailyRate { get; set; }
+        public decimal TotalCost { get; private set; }
+        public RentalPlanEnum RentalPlan { get; set; }
+        public string RentalPlanDescription => RentalPlan.GetDescription();
+        public DeliveryPersonResponseViewModel? DeliveryPerson { get; set; }
+        public MotorcycleResponseViewModel? Motorcycle { get; set; }
 
 
 

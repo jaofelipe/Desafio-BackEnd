@@ -21,9 +21,18 @@ namespace DesafioBackEnd.Infra.Repository
         }
 
 
-        public async Task<Rental?> GetByIdAsync(Guid id) => await _context.Rentals.FindAsync(id);
+        public async Task<Rental?> GetByIdIncludedAsync(Guid id) {
+            return await _context.Rentals
+                .Include(x => x.Motorcycle)
+                .Include(x => x.DeliveryPerson)
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
 
-      
+        public async Task<Rental?> GetByIdAsync(Guid id)
+        {
+            return await _context.Rentals
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
 
     }
 

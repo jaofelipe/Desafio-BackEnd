@@ -1,4 +1,5 @@
 using DesafioBackEnd.Core.Enums;
+using DesafioBackEnd.Core.Extensions;
 
 namespace DesafioBackEnd.Application.ViewModels
 {
@@ -10,7 +11,7 @@ namespace DesafioBackEnd.Application.ViewModels
         public DateTime BirthDate { get; set; }
         public string DriverLicenseNumber { get; set; }
         public LicenseTypeEnum LicenseType { get; set; }
-
+        public string LicenseTypeDescription => LicenseType.GetDescription();
         public string? FilePath { get; set; }
 
 

@@ -14,6 +14,8 @@ namespace DesafioBackEnd.Application.Mapping
             CreateMap<DeliveryPerson, DeliveryPersonResponseViewModel>().ReverseMap();
             CreateMap<DeliveryPerson, DeliveryPersonViewModel>().ReverseMap();
 
+            CreateMap<Rental, RentalResponseViewModel>().ReverseMap();
+            CreateMap<Rental, RentalViewModel>().ReverseMap();
 
 
         }

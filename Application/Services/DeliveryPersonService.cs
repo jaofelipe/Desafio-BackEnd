@@ -35,13 +35,13 @@ namespace DesafioBackEnd.Application.Services
                 throw new ArgumentException("Formato inválido, somente PNG ou BMP são permitidos.");
             }
 
-            var directoryPath = Path.Combine(_environment.ContentRootPath, "cnh_images", deliveryPersonId.ToString());
+            var directoryPath = Path.Combine(_environment.ContentRootPath, "cnh_images");
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
             }
 
-            var fileName = "cnh" + Path.GetExtension(cnhImage.FileName);
+            var fileName = $"{deliveryPersonId}_cnh{Path.GetExtension(cnhImage.FileName)}";
             var filePath = Path.Combine(directoryPath, fileName);
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))

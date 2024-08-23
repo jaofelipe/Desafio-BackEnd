@@ -99,10 +99,10 @@ namespace DesafioBackEnd.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     EstimatedEndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DailyRate = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
-                    TotalCost = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
+                    TotalCost = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: true),
                     RentalPlan = table.Column<int>(type: "integer", nullable: false),
                     DeliveryPersonId = table.Column<Guid>(type: "uuid", nullable: false),
                     MotorcycleId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -157,7 +157,7 @@ namespace DesafioBackEnd.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "Bio", "Email", "Image", "Name", "PasswordHash", "Slug" },
-                values: new object[] { new Guid("d2f1f799-09b6-44b0-91a4-13d5cd3640b1"), null, "admin@gmail.com", null, "admin", "10000.lv/Ys0439Ve9Z28AD6S7+w==.g4VINIyxstkQp4FSWkq8DFtzmbHJPyUnj7kIjcvzbyE=", "admin-gmail-com" });
+                values: new object[] { new Guid("d2f1f799-09b6-44b0-91a4-13d5cd3640b1"), null, "admin@gmail.com", null, "admin", "10000.aUt4TAMvvNw3GtQJEFaLqw==.SZJps1TcD20iXrwkHzuV1YVhrlxjzj9Sk/fjJI+bntg=", "admin-gmail-com" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",

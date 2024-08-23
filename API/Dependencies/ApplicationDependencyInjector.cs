@@ -8,6 +8,8 @@ namespace DesafioBackEnd.API.Dependencies
         public static IServiceCollection Add(IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IMotorcycleService, MotorcycleService>();
+            serviceCollection.AddScoped<IDeliveryPersonService, DeliveryPersonService>();
+            serviceCollection.AddScoped<IRentalService, RentalService>();
 
             return serviceCollection;
         }

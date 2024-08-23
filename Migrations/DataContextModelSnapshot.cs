@@ -132,7 +132,7 @@ namespace DesafioBackEnd.Migrations
                     b.Property<Guid>("DeliveryPersonId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("EstimatedEndDate")
@@ -150,7 +150,7 @@ namespace DesafioBackEnd.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("TotalCost")
+                    b.Property<decimal?>("TotalCost")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)");
 
@@ -243,7 +243,7 @@ namespace DesafioBackEnd.Migrations
                             Id = new Guid("d2f1f799-09b6-44b0-91a4-13d5cd3640b1"),
                             Email = "admin@gmail.com",
                             Name = "admin",
-                            PasswordHash = "10000.lv/Ys0439Ve9Z28AD6S7+w==.g4VINIyxstkQp4FSWkq8DFtzmbHJPyUnj7kIjcvzbyE=",
+                            PasswordHash = "10000.aUt4TAMvvNw3GtQJEFaLqw==.SZJps1TcD20iXrwkHzuV1YVhrlxjzj9Sk/fjJI+bntg=",
                             Slug = "admin-gmail-com"
                         });
                 });

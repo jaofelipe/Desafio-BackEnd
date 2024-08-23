@@ -7,7 +7,6 @@ namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
         private readonly IMessageBroker _messageBroker;
         private readonly ILogger<MessageSubscriberService> _logger;
         private readonly IMotorcycleRegisteredEventHandler _motorcycleRegisteredEventHandler;
-        private readonly IConfiguration _configuration;
         private readonly string _motorcycleQueueName;
 
         public MessageSubscriberService(
@@ -21,7 +20,6 @@ namespace DesafioBackEnd.Infra.Messaging.RabbitMQ
             _motorcycleRegisteredEventHandler = motorcycleRegisteredEventHandler;
 
             _motorcycleQueueName = configuration.GetValue<string>("RabbitMQ:MotorcycleQueueName");
-            _configuration = configuration;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
